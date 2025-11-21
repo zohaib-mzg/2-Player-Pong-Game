@@ -1,4 +1,4 @@
-# 🎮 2-Player Pong Game - x86 Assembly
+# 🎮 2-Player Pong Game - x88 Assembly
 
 A classic Pong implementation written entirely in x86 Assembly language, demonstrating low-level programming excellence through real-time graphics, interrupt handling, and direct hardware access.
 
