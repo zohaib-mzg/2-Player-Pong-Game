@@ -10,7 +10,7 @@ jmp start
 	msg4: db 'Player 2: O-Up K-Down', 0  
 	msg5: db 'Score 5 to Win', 0
 	msg6: db 'Red Wins the Game',0
-	msg7: db 'Blue Wins the Game',0
+	msg7: db 'Green Wins the Game',0
 	msg8: db 'Press - r - to Restart',0
 	msg9: db 'Press Any Other Key to Exit',0
 	msg10: db 'Game Exited!',0
@@ -113,7 +113,7 @@ restart:
     mov word [Y1], 12
     mov word [X2], 1
     mov word [Y2], 0
-    mov word [speed],1
+    mov word [speed], 1
     
     mov ax, [Y1]
     mov bx, 160
@@ -218,7 +218,7 @@ timer:
     dec word [speed]
 	jnz skip
     
-    mov word [speed],1
+    mov word [speed], 1
     
     call PaddleMovement
 	call MoveBall
@@ -253,9 +253,9 @@ MoveBall:
     add ax, [Y2]
     mov [Y1], ax
 	
-	cmp word [Y1], 2
+	cmp word [Y1], 1
     jl bounceY
-    cmp word [Y1], 22
+    cmp word [Y1], 23
     jg bounceY
 	
 	call checkCollision
@@ -395,18 +395,8 @@ drawBoundary:
 	mov ax,0x02DB
 	rep stosw
 	
-	mov cx,160
-	mov di,0
-	mov ax,0x02DB
-	rep stosw
-	
 	mov cx,80
 	mov di,3840
-	mov ax,0x02DB
-	rep stosw
-	
-	mov cx,80
-	mov di,3680
 	mov ax,0x02DB
 	rep stosw
 	
@@ -479,27 +469,27 @@ PaddleMovement:
 	je rightDown
 	jmp noKey
 	leftUp:
-		cmp word[leftPd],482
+		cmp word[leftPd],322
 		jbe noKey
-		sub word[leftPd],320
+		sub word[leftPd],160
 		jmp noKey
 
 	leftDown:
-		cmp word[leftPd],2876
+		cmp word[leftPd],3036
 		jae noKey
-		add word[leftPd],320
+		add word[leftPd],160
 		jmp noKey
 
 	rightUp:
-		cmp word[rightPd],482
+		cmp word[rightPd],322
 		jbe noKey
-		sub word[rightPd],320
+		sub word[rightPd],160
 		jmp noKey
 
 	rightDown:
-		cmp word[rightPd],2876
+		cmp word[rightPd],3036
 		jae noKey
-		add word[rightPd],320
+		add word[rightPd],160
 		jmp noKey
 
 	noKey:
@@ -548,25 +538,25 @@ DisplayInfo:
     mov ax, 0xb800
     mov es, ax
     
-    mov di, 328        
+    mov di, 164            
     mov si, msg3
 	push di
 	push si
     call printStr
     
-    mov di, 488         
+    mov di, 324         
     mov si, msg4
 	push di
 	push si
     call printStr
     
-    mov di, 648    
+    mov di, 484      
     mov si, msg5
 	push di
 	push si
     call printStr
     
-    mov di, 444          
+    mov di, 280           
     mov si, msg1
 	push di
 	push si
@@ -578,7 +568,7 @@ DisplayInfo:
 	push di
     call printNum
     
-    mov di, 604    
+    mov di, 440    
     mov si, msg2
 	push di
 	push si
@@ -732,8 +722,8 @@ drawLine:
 	
 	mov ax,0xb800
 	mov es,ax
-	mov cx,20
-	mov di,560
+	mov cx,22
+	mov di,400
 	mov ax,0x0E7C
 	draw:
 		mov [es:di],ax
@@ -757,7 +747,7 @@ printName:
 	mov es,ax
 	
 	mov si,[bp+4]
-	mov di,382
+	mov di,222
 	mov ah,0x0B
 	prLoop3:
 		mov al,[si]
@@ -771,7 +761,7 @@ printName:
 	drawL1:
 		mov ax,0xb800
 		mov es,ax
-		mov di,542
+		mov di,382
 		mov cx,18
 		mov ax,0x0ECD
 		cld 
