@@ -260,7 +260,7 @@ MoveBall:
 	
 	call checkCollision
 		
-	cmp word [X1], 1
+	cmp word [X1], 2
     jl pl2Score
     cmp word [X1], 78
     jg pl1Score
@@ -331,9 +331,19 @@ checkCollision:
 	cmp ax,cx
 	jg checkRight
 	
-	mov word [X2], 1
-    jmp done2
-	
+	sub ax,bx
+	cmp ax,2          
+	jbe leftTopHit
+	jmp leftBottomHit
+    
+	leftTopHit:
+		mov word[X2],1
+		mov word[Y2],-1
+		jmp done2
+	leftBottomHit:
+		mov word[X2],1
+		mov word[Y2],1
+		jmp done2
 	checkRight:
 		cmp word[X1],76
 		jne done2
@@ -354,18 +364,12 @@ checkCollision:
 		jg done2
 		
 		sub ax,bx
-		cmp ax, 1          
+		cmp ax,2        
 		jbe rightTopHit
-		cmp ax, 3        
-		je rightCenterHit
 		jmp rightBottomHit
 	rightTopHit:
 		mov word[X2],-1
 		mov word[Y2],-1
-		jmp done2
-	rightCenterHit:
-		mov word[X2],-1
-		mov word[Y2],0
 		jmp done2
 	rightBottomHit:
 		mov word[X2],-1
@@ -390,13 +394,13 @@ drawBoundary:
 	mov es,ax
 	cld
 	
-	mov cx,80
-	mov di,0
+	mov cx,74
+	mov di,6
 	mov ax,0x02DB
 	rep stosw
 	
-	mov cx,80
-	mov di,3840
+	mov cx,74
+	mov di,3846
 	mov ax,0x02DB
 	rep stosw
 	
@@ -471,25 +475,25 @@ PaddleMovement:
 	leftUp:
 		cmp word[leftPd],322
 		jbe noKey
-		sub word[leftPd],160
+		sub word[leftPd],320
 		jmp noKey
 
 	leftDown:
 		cmp word[leftPd],3036
 		jae noKey
-		add word[leftPd],160
+		add word[leftPd],320
 		jmp noKey
 
 	rightUp:
 		cmp word[rightPd],322
 		jbe noKey
-		sub word[rightPd],160
+		sub word[rightPd],320
 		jmp noKey
 
 	rightDown:
 		cmp word[rightPd],3036
 		jae noKey
-		add word[rightPd],160
+		add word[rightPd],320
 		jmp noKey
 
 	noKey:
@@ -538,25 +542,25 @@ DisplayInfo:
     mov ax, 0xb800
     mov es, ax
     
-    mov di, 164            
+    mov di, 168            
     mov si, msg3
 	push di
 	push si
     call printStr
     
-    mov di, 324         
+    mov di, 328         
     mov si, msg4
 	push di
 	push si
     call printStr
     
-    mov di, 484      
+    mov di, 488      
     mov si, msg5
 	push di
 	push si
     call printStr
     
-    mov di, 280           
+    mov di, 288           
     mov si, msg1
 	push di
 	push si
@@ -568,7 +572,7 @@ DisplayInfo:
 	push di
     call printNum
     
-    mov di, 440    
+    mov di, 448    
     mov si, msg2
 	push di
 	push si
